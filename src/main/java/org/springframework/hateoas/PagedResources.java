@@ -22,71 +22,70 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.util.Assert;
 
 /**
  * DTO to implement binding response representations of pageable collections.
- * 
+ *
  * @author Oliver Gierke
  */
 @XmlRootElement(name = "entities")
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@com.fasterxml.jackson.annotation.JsonAutoDetect(fieldVisibility = com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY)
+@org.codehaus.jackson.annotate.JsonAutoDetect(fieldVisibility = org.codehaus.jackson.annotate.JsonAutoDetect.Visibility.ANY)
 public class PagedResources<T> extends Resources<T> {
 
-	@JsonProperty("page")
-	private PageMetadata metadata;
+  @com.fasterxml.jackson.annotation.JsonProperty("page")
+  @org.codehaus.jackson.annotate.JsonProperty("page")
+  private PageMetadata metadata;
 
-	/**
-	 * Default constructor to allow instantiation by reflection.
-	 */
-	protected PagedResources() {
-		this(new ArrayList<T>(), null);
-	}
+  /**
+   * Default constructor to allow instantiation by reflection.
+   */
+  protected PagedResources() {
+    this(new ArrayList<T>(), null);
+  }
 
-	/**
-	 * Creates a new {@link PagedResources} from the given content, {@link PageMetadata} and {@link Link}s (optional).
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @param metadata
-	 * @param links
-	 */
-	public PagedResources(Collection<T> content, PageMetadata metadata, Link... links) {
-		this(content, metadata, Arrays.asList(links));
-	}
+  /**
+   * Creates a new {@link PagedResources} from the given content, {@link PageMetadata} and {@link Link}s (optional).
+   *
+   * @param content must not be {@literal null}.
+   * @param metadata
+   * @param links
+   */
+  public PagedResources(Collection<T> content, PageMetadata metadata, Link... links) {
+    this(content, metadata, Arrays.asList(links));
+  }
 
-	/**
-	 * Creates a new {@link PagedResources} from the given content {@link PageMetadata} and {@link Link}s.
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @param metadata
-	 * @param links
-	 */
-	public PagedResources(Collection<T> content, PageMetadata metadata, Iterable<Link> links) {
-		super(content, links);
-		this.metadata = metadata;
-	}
+  /**
+   * Creates a new {@link PagedResources} from the given content {@link PageMetadata} and {@link Link}s.
+   *
+   * @param content must not be {@literal null}.
+   * @param metadata
+   * @param links
+   */
+  public PagedResources(Collection<T> content, PageMetadata metadata, Iterable<Link> links) {
+    super(content, links);
+    this.metadata = metadata;
+  }
 
-	/**
-	 * Returns the pagination metadata.
-	 * 
-	 * @return the metadata
-	 */
-	public PageMetadata getMetadata() {
-		return metadata;
-	}
+  /**
+   * Returns the pagination metadata.
+   *
+   * @return the metadata
+   */
+  public PageMetadata getMetadata() {
+    return metadata;
+  }
 
-	/**
-	 * Factory method to easily create a {@link PagedResources} instance from a set of entities and pagination metadata.
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @param metadata
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends Resource<S>, S> PagedResources<T> wrap(Iterable<S> content, PageMetadata metadata) {
+  /**
+   * Factory method to easily create a {@link PagedResources} instance from a set of entities and pagination metadata.
+   *
+   * @param content must not be {@literal null}.
+   * @param metadata
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Resource<S>, S> PagedResources<T> wrap(Iterable<S> content, PageMetadata metadata) {
 
 		Assert.notNull(content);
 		ArrayList<T> resources = new ArrayList<T>();
@@ -98,7 +97,7 @@ public class PagedResources<T> extends Resources<T> {
 		return new PagedResources<T>(resources, metadata);
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.hateoas.ResourceSupport#toString()
 	 */
@@ -107,7 +106,7 @@ public class PagedResources<T> extends Resources<T> {
 		return String.format("PagedResource { content: %s, metadata: %s }", getContent(), metadata);
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.hateoas.Resources#equals(java.lang.Object)
 	 */
@@ -128,7 +127,7 @@ public class PagedResources<T> extends Resources<T> {
 		return metadataEquals ? super.equals(obj) : false;
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.hateoas.Resources#hashCode()
 	 */
@@ -142,26 +141,31 @@ public class PagedResources<T> extends Resources<T> {
 
 	/**
 	 * Value object for pagination metadata.
-	 * 
+	 *
 	 * @author Oliver Gierke
 	 */
-	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+	@com.fasterxml.jackson.annotation.JsonAutoDetect(fieldVisibility = com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY)
+	@org.codehaus.jackson.annotate.JsonAutoDetect(fieldVisibility = org.codehaus.jackson.annotate.JsonAutoDetect.Visibility.ANY)
 	public static class PageMetadata {
 
 		@XmlAttribute
-		@JsonProperty
+		@com.fasterxml.jackson.annotation.JsonProperty
+		@org.codehaus.jackson.annotate.JsonProperty
 		private long size;
 
 		@XmlAttribute
-		@JsonProperty
+		@com.fasterxml.jackson.annotation.JsonProperty
+		@org.codehaus.jackson.annotate.JsonProperty
 		private long totalElements;
 
 		@XmlAttribute
-		@JsonProperty
+		@com.fasterxml.jackson.annotation.JsonProperty
+		@org.codehaus.jackson.annotate.JsonProperty
 		private long totalPages;
 
 		@XmlAttribute
-		@JsonProperty
+		@com.fasterxml.jackson.annotation.JsonProperty
+		@org.codehaus.jackson.annotate.JsonProperty
 		private long number;
 
 		protected PageMetadata() {
@@ -184,7 +188,7 @@ public class PagedResources<T> extends Resources<T> {
 
 		/**
 		 * Returns the requested size of the page.
-		 * 
+		 *
 		 * @return the size a positive long.
 		 */
 		public long getSize() {
@@ -193,7 +197,7 @@ public class PagedResources<T> extends Resources<T> {
 
 		/**
 		 * Returns the total number of elements available.
-		 * 
+		 *
 		 * @return the totalElements a positive long.
 		 */
 		public long getTotalElements() {
@@ -202,7 +206,7 @@ public class PagedResources<T> extends Resources<T> {
 
 		/**
 		 * Returns how many pages are available in total.
-		 * 
+		 *
 		 * @return the totalPages a positive long.
 		 */
 		public long getTotalPages() {
@@ -211,14 +215,14 @@ public class PagedResources<T> extends Resources<T> {
 
 		/**
 		 * Returns the number of the current page.
-		 * 
+		 *
 		 * @return the number a positive long.
 		 */
 		public long getNumber() {
 			return number;
 		}
 
-		/* 
+		/*
 		 * (non-Javadoc)
 		 * @see java.lang.Object#toString()
 		 */
@@ -228,7 +232,7 @@ public class PagedResources<T> extends Resources<T> {
 					totalPages, totalElements, size);
 		}
 
-		/* 
+		/*
 		 * (non-Javadoc)
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
@@ -249,7 +253,7 @@ public class PagedResources<T> extends Resources<T> {
 					&& this.totalPages == that.totalPages;
 		}
 
-		/* 
+		/*
 		 * (non-Javadoc)
 		 * @see java.lang.Object#hashCode()
 		 */

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.util.Assert;
 
 /**
@@ -36,59 +35,60 @@ import org.springframework.util.Assert;
 @XmlRootElement(name = "entities")
 public class Resources<T> extends ResourceSupport implements Iterable<T> {
 
-	@XmlAnyElement
-	@XmlElementWrapper
-	@JsonProperty("content")
-	private final Collection<T> content;
+  @XmlAnyElement
+  @XmlElementWrapper
+  @com.fasterxml.jackson.annotation.JsonProperty("content")
+  @org.codehaus.jackson.annotate.JsonProperty("content")
+  private final Collection<T> content;
 
-	/**
-	 * Creates an empty {@link Resources} instance.
-	 */
-	protected Resources() {
-		this(new ArrayList<T>());
-	}
+  /**
+   * Creates an empty {@link Resources} instance.
+   */
+  protected Resources() {
+    this(new ArrayList<T>());
+  }
 
-	/**
-	 * Creates a {@link Resources} instance with the given content and {@link Link}s (optional).
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @param links the links to be added to the {@link Resources}.
-	 */
-	public Resources(Iterable<T> content, Link... links) {
-		this(content, Arrays.asList(links));
-	}
+  /**
+   * Creates a {@link Resources} instance with the given content and {@link Link}s (optional).
+   *
+   * @param content must not be {@literal null}.
+   * @param links the links to be added to the {@link Resources}.
+   */
+  public Resources(Iterable<T> content, Link... links) {
+    this(content, Arrays.asList(links));
+  }
 
-	/**
-	 * Creates a {@link Resources} instance with the given content and {@link Link}s.
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @param links the links to be added to the {@link Resources}.
-	 */
-	public Resources(Iterable<T> content, Iterable<Link> links) {
+  /**
+   * Creates a {@link Resources} instance with the given content and {@link Link}s.
+   *
+   * @param content must not be {@literal null}.
+   * @param links the links to be added to the {@link Resources}.
+   */
+  public Resources(Iterable<T> content, Iterable<Link> links) {
 
-		Assert.notNull(content);
+    Assert.notNull(content);
 
-		this.content = new ArrayList<T>();
+    this.content = new ArrayList<T>();
 
-		for (T element : content) {
-			this.content.add(element);
-		}
-		this.add(links);
-	}
+    for(T element : content) {
+      this.content.add(element);
+    }
+    this.add(links);
+  }
 
-	/**
-	 * Creates a new {@link Resources} instance by wrapping the given domain class instances into a {@link Resource}.
-	 * 
-	 * @param content must not be {@literal null}.
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends Resource<S>, S> Resources<T> wrap(Iterable<S> content) {
+  /**
+   * Creates a new {@link Resources} instance by wrapping the given domain class instances into a {@link Resource}.
+   *
+   * @param content must not be {@literal null}.
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Resource<S>, S> Resources<T> wrap(Iterable<S> content) {
 
-		Assert.notNull(content);
-		ArrayList<T> resources = new ArrayList<T>();
+    Assert.notNull(content);
+    ArrayList<T> resources = new ArrayList<T>();
 
-		for (S element : content) {
+    for(S element : content) {
 			resources.add((T) new Resource<S>(element));
 		}
 

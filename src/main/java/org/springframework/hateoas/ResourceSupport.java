@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.util.Assert;
 
 /**
@@ -32,67 +30,69 @@ import org.springframework.util.Assert;
  */
 public class ResourceSupport implements Identifiable<Link> {
 
-	@XmlElement(name = "link", namespace = Link.ATOM_NAMESPACE)
-	@JsonProperty("links")
-	private final List<Link> links;
+  @XmlElement(name = "link", namespace = Link.ATOM_NAMESPACE)
+  @com.fasterxml.jackson.annotation.JsonProperty("links")
+  @org.codehaus.jackson.annotate.JsonProperty("links")
+  private final List<Link> links;
 
-	public ResourceSupport() {
-		this.links = new ArrayList<Link>();
-	}
+  public ResourceSupport() {
+    this.links = new ArrayList<Link>();
+  }
 
-	/**
-	 * Returns the {@link Link} with a rel of {@link Link#REL_SELF}.
-	 */
-	@JsonIgnore
-	public Link getId() {
-		return getLink(Link.REL_SELF);
-	}
+  /**
+   * Returns the {@link Link} with a rel of {@link Link#REL_SELF}.
+   */
+  @com.fasterxml.jackson.annotation.JsonIgnore
+  @org.codehaus.jackson.annotate.JsonIgnore
+  public Link getId() {
+    return getLink(Link.REL_SELF);
+  }
 
-	/**
-	 * Adds the given link to the resource.
-	 * 
-	 * @param link
-	 */
-	public void add(Link link) {
-		Assert.notNull(link, "Link must not be null!");
-		this.links.add(link);
-	}
+  /**
+   * Adds the given link to the resource.
+   *
+   * @param link
+   */
+  public void add(Link link) {
+    Assert.notNull(link, "Link must not be null!");
+    this.links.add(link);
+  }
 
-	/**
-	 * Adds all given {@link Link}s to the resource.
-	 * 
-	 * @param links
-	 */
-	public void add(Iterable<Link> links) {
-		Assert.notNull(links, "Given links must not be null!");
-		for (Link candidate : links) {
-			add(candidate);
-		}
-	}
+  /**
+   * Adds all given {@link Link}s to the resource.
+   *
+   * @param links
+   */
+  public void add(Iterable<Link> links) {
+    Assert.notNull(links, "Given links must not be null!");
+    for(Link candidate : links) {
+      add(candidate);
+    }
+  }
 
-	/**
-	 * Returns whether the resource contains {@link Link}s at all.
-	 * 
-	 * @return
-	 */
-	public boolean hasLinks() {
-		return !this.links.isEmpty();
-	}
+  /**
+   * Returns whether the resource contains {@link Link}s at all.
+   *
+   * @return
+   */
+  public boolean hasLinks() {
+    return !this.links.isEmpty();
+  }
 
-	/**
-	 * Returns whether the resource contains a {@link Link} with the given rel.
-	 * 
-	 * @param rel
-	 * @return
-	 */
-	public boolean hasLink(String rel) {
-		return getLink(rel) != null;
-	}
+  /**
+   * Returns whether the resource contains a {@link Link} with the given rel.
+   *
+   * @param rel
+   * @return
+   */
+  public boolean hasLink(String rel) {
+    return getLink(rel) != null;
+  }
 
-	/**
-	 * Returns all {@link Link}s contained in this resource.
-	 * 
-	 * @return
+  /**
+   * Returns all {@link Link}s contained in this resource.
+   *
+   * @return
 	 */
 	public List<Link> getLinks() {
 		return Collections.unmodifiableList(links);
